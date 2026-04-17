@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap");
+
+:root {
+  --font-body: "Inter", sans-serif;
+  --font-heading: "Playfair Display", serif;
+
+  /* --- FULL VARIABLE SET (Defaults to Warm Sand) --- */
+  --bg-primary: #fafaf9;
+  --bg-secondary: #f5f5f4;
+  --bg-tertiary: #e7e5e4;
+
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #a8a29e;
+
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --accent-light: #fef3c7;
+
+  --border: #d6d3d1;
+  --card-bg: #ffffff;
+}
+
+/* 
+   Note: We no longer need hardcoded .theme-midnight classes here.
+   The ThemeContext in React dynamically applies these variables 
+   via inline styles on the <html> tag, supporting unlimited themes.
+*/
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+}
+
+/* Command Menu Styles */
+[cmdk-root] {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 16px 70px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  width: 100%;
+  max-width: 450px;
+}
+[cmdk-input] {
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-body);
+}
+[cmdk-item] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+[cmdk-item][data-selected="true"] {
+  background: var(--bg-secondary);
+}
+
+/* Markdown Prose */
+.prose {
+  max-width: none;
+}
+.prose strong {
+  color: var(--text-primary);
+}
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Utility classes mapped to variables */
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+.bg-tertiary {
+  background-color: var(--bg-tertiary);
+}
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-accent {
+  color: var(--accent);
+}
+.bg-accent {
+  background-color: var(--accent);
+}
+.bg-accent-light {
+  background-color: var(--accent-light);
+}
+.border-accent {
+  border-color: var(--accent);
+}
+.border-border {
+  border-color: var(--border);
+}
+.bg-card {
+  background-color: var(--card-bg);
+}
