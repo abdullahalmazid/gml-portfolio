@@ -31,7 +31,7 @@ export default function ExperienceDetailPage() {
           <ArrowLeft size={18} /> Back to Experience
         </button>
 
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-8 shadow-sm">
+        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-8 shadow-sm px-20">
           <div className="flex items-center gap-3 mb-2">
             <Briefcase className="text-[var(--accent)]" />
             <h1 className="text-3xl font-bold text-[var(--text-primary)]">{item.role}</h1>
