@@ -28,6 +28,7 @@ export default function ExperienceDetailPage() {
     <main className="min-h-screen py-12">
       <div className="container mx-auto px-6 max-w-5xl">
 
+<<<<<<< HEAD
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm mb-8">
           <button
@@ -39,6 +40,22 @@ export default function ExperienceDetailPage() {
           <span className="text-[var(--text-muted)]">/</span>
           <span className="text-[var(--text-primary)] font-medium truncate">{item.role}</span>
         </nav>
+=======
+        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-8 shadow-sm px-20">
+          <div className="flex items-center gap-3 mb-2">
+            <Briefcase className="text-[var(--accent)]" />
+            <h1 className="text-3xl font-bold text-[var(--text-primary)]">{item.role}</h1>
+          </div>
+          
+          <div className="flex items-center gap-4 text-sm text-[var(--text-secondary)] mb-6">
+            <span className="font-medium text-[var(--text-primary)]">{item.company}</span>
+            {item.duration && (
+              <span className="flex items-center gap-1">
+                <Calendar size={14} /> {item.duration}
+              </span>
+            )}
+          </div>
+>>>>>>> 25904b6ced89ab7c8dfbfa5d76497ab51e70b073
 
         <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl overflow-hidden shadow-sm">
           <div className="p-8 grid lg:grid-cols-[1fr_220px] gap-10 items-start">
