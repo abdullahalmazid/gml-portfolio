@@ -6,5 +6,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
+  experimental: {
+    appDir: true,
+  },
 };
+
 module.exports = nextConfig;

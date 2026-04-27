@@ -32,8 +32,6 @@ dist/
 .vscode/
 
 # Firebase/Cloudinary (if any config files)
-src/lib/firebase.js
-src/lib/cloudinary.js
 
 # Personal/OneDrive
 *.one
