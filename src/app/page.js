@@ -2,7 +2,9 @@
 import EditableImage from '@/components/editables/EditableImage';
 import EditableText from '@/components/editables/EditableText';
 import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
-import SectionRenderer from '@/components/pages/SectionRenderer';
+
+
+import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { useDoc } from '@/lib/firestore-helpers';
 import { Facebook, Github, Linkedin, Mail, Send, User, Youtube } from 'lucide-react'; // Added Facebook & Youtube

@@ -1,7 +1,7 @@
 'use client';
 import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
 import PageHero from '@/components/pages/PageHero';
-import SectionRenderer from '@/components/pages/SectionRenderer';
+import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { useAdmin } from '@/context/AdminContext';
 import { deleteItem, useColl, useDoc } from '@/lib/firestore-helpers';
