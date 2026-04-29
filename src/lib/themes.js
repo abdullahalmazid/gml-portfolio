@@ -195,6 +195,213 @@
       '--border': '#047857', '--card-bg': '#064e3b',
     },
   },
+    // --- EXTRA CLEAN UI PRESETS ---
+  {
+    id: 'soft-sky',
+    name: 'Soft Sky',
+    colors: {
+      '--bg-primary': '#f8fbff', '--bg-secondary': '#eef6ff', '--bg-tertiary': '#dbeafe',
+      '--text-primary': '#0f172a', '--text-secondary': '#334155', '--text-muted': '#94a3b8',
+      '--accent': '#2563eb', '--accent-hover': '#1d4ed8', '--accent-light': '#dbeafe',
+      '--border': '#bfdbfe', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'cream-coffee',
+    name: 'Cream Coffee',
+    colors: {
+      '--bg-primary': '#fffbf5', '--bg-secondary': '#f7efe5', '--bg-tertiary': '#ead7c0',
+      '--text-primary': '#2f1b0c', '--text-secondary': '#6b3f22', '--text-muted': '#a9825a',
+      '--accent': '#a16207', '--accent-hover': '#854d0e', '--accent-light': '#fef3c7',
+      '--border': '#d6b58a', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'mint-clean',
+    name: 'Mint Clean',
+    colors: {
+      '--bg-primary': '#f7fffb', '--bg-secondary': '#ecfdf5', '--bg-tertiary': '#d1fae5',
+      '--text-primary': '#052e16', '--text-secondary': '#166534', '--text-muted': '#6ee7b7',
+      '--accent': '#10b981', '--accent-hover': '#059669', '--accent-light': '#d1fae5',
+      '--border': '#a7f3d0', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'royal-indigo',
+    name: 'Royal Indigo',
+    colors: {
+      '--bg-primary': '#f8f7ff', '--bg-secondary': '#eef2ff', '--bg-tertiary': '#e0e7ff',
+      '--text-primary': '#1e1b4b', '--text-secondary': '#3730a3', '--text-muted': '#818cf8',
+      '--accent': '#4f46e5', '--accent-hover': '#4338ca', '--accent-light': '#e0e7ff',
+      '--border': '#c7d2fe', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'graphite-light',
+    name: 'Graphite Light',
+    colors: {
+      '--bg-primary': '#fafafa', '--bg-secondary': '#f4f4f5', '--bg-tertiary': '#e4e4e7',
+      '--text-primary': '#18181b', '--text-secondary': '#3f3f46', '--text-muted': '#a1a1aa',
+      '--accent': '#52525b', '--accent-hover': '#27272a', '--accent-light': '#e4e4e7',
+      '--border': '#d4d4d8', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'paper-ink',
+    name: 'Paper Ink',
+    colors: {
+      '--bg-primary': '#fffdf7', '--bg-secondary': '#f8f3e7', '--bg-tertiary': '#eee3cc',
+      '--text-primary': '#111827', '--text-secondary': '#374151', '--text-muted': '#9ca3af',
+      '--accent': '#1f2937', '--accent-hover': '#030712', '--accent-light': '#e5e7eb',
+      '--border': '#d6d3c4', '--card-bg': '#ffffff',
+    },
+  },
+
+  // --- STRONG DARK PRESETS ---
+  {
+    id: 'obsidian-blue',
+    name: 'Obsidian Blue',
+    colors: {
+      '--bg-primary': '#020617', '--bg-secondary': '#0f172a', '--bg-tertiary': '#1e293b',
+      '--text-primary': '#f8fafc', '--text-secondary': '#cbd5e1', '--text-muted': '#64748b',
+      '--accent': '#38bdf8', '--accent-hover': '#7dd3fc', '--accent-light': '#082f49',
+      '--border': '#334155', '--card-bg': '#0f172a',
+    },
+  },
+  {
+    id: 'deep-violet',
+    name: 'Deep Violet',
+    colors: {
+      '--bg-primary': '#12091f', '--bg-secondary': '#1e1233', '--bg-tertiary': '#2e1a4d',
+      '--text-primary': '#f5f3ff', '--text-secondary': '#ddd6fe', '--text-muted': '#8b5cf6',
+      '--accent': '#a855f7', '--accent-hover': '#c084fc', '--accent-light': '#3b0764',
+      '--border': '#4c1d95', '--card-bg': '#1e1233',
+    },
+  },
+  {
+    id: 'carbon-red',
+    name: 'Carbon Red',
+    colors: {
+      '--bg-primary': '#09090b', '--bg-secondary': '#18181b', '--bg-tertiary': '#27272a',
+      '--text-primary': '#fafafa', '--text-secondary': '#d4d4d8', '--text-muted': '#71717a',
+      '--accent': '#ef4444', '--accent-hover': '#f87171', '--accent-light': '#450a0a',
+      '--border': '#3f3f46', '--card-bg': '#18181b',
+    },
+  },
+  {
+    id: 'terminal-green',
+    name: 'Terminal Green',
+    colors: {
+      '--bg-primary': '#020403', '--bg-secondary': '#07130d', '--bg-tertiary': '#0f2418',
+      '--text-primary': '#dcfce7', '--text-secondary': '#86efac', '--text-muted': '#4ade80',
+      '--accent': '#22c55e', '--accent-hover': '#86efac', '--accent-light': '#052e16',
+      '--border': '#14532d', '--card-bg': '#07130d',
+    },
+  },
+  {
+    id: 'matrix-lime',
+    name: 'Matrix Lime',
+    colors: {
+      '--bg-primary': '#050807', '--bg-secondary': '#0d120f', '--bg-tertiary': '#18231b',
+      '--text-primary': '#ecfccb', '--text-secondary': '#bef264', '--text-muted': '#65a30d',
+      '--accent': '#84cc16', '--accent-hover': '#a3e635', '--accent-light': '#1a2e05',
+      '--border': '#365314', '--card-bg': '#0d120f',
+    },
+  },
+
+  // --- COLORFUL BRAND STYLE ---
+  {
+    id: 'electric-cyan',
+    name: 'Electric Cyan',
+    colors: {
+      '--bg-primary': '#ecfeff', '--bg-secondary': '#cffafe', '--bg-tertiary': '#a5f3fc',
+      '--text-primary': '#083344', '--text-secondary': '#155e75', '--text-muted': '#67e8f9',
+      '--accent': '#0891b2', '--accent-hover': '#0e7490', '--accent-light': '#cffafe',
+      '--border': '#67e8f9', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'coral-pop',
+    name: 'Coral Pop',
+    colors: {
+      '--bg-primary': '#fff7ed', '--bg-secondary': '#ffedd5', '--bg-tertiary': '#fed7aa',
+      '--text-primary': '#431407', '--text-secondary': '#7c2d12', '--text-muted': '#fb923c',
+      '--accent': '#f97316', '--accent-hover': '#ea580c', '--accent-light': '#ffedd5',
+      '--border': '#fdba74', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'berry-clean',
+    name: 'Berry Clean',
+    colors: {
+      '--bg-primary': '#fdf2f8', '--bg-secondary': '#fce7f3', '--bg-tertiary': '#fbcfe8',
+      '--text-primary': '#500724', '--text-secondary': '#831843', '--text-muted': '#f9a8d4',
+      '--accent': '#db2777', '--accent-hover': '#be185d', '--accent-light': '#fce7f3',
+      '--border': '#f9a8d4', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'lemon-dark',
+    name: 'Lemon Dark',
+    colors: {
+      '--bg-primary': '#111100', '--bg-secondary': '#1c1c05', '--bg-tertiary': '#2a2a0a',
+      '--text-primary': '#fefce8', '--text-secondary': '#fef08a', '--text-muted': '#a3a300',
+      '--accent': '#eab308', '--accent-hover': '#fde047', '--accent-light': '#422006',
+      '--border': '#57520a', '--card-bg': '#1c1c05',
+    },
+  },
+  {
+    id: 'skyline',
+    name: 'Skyline',
+    colors: {
+      '--bg-primary': '#f0f9ff', '--bg-secondary': '#e0f2fe', '--bg-tertiary': '#bae6fd',
+      '--text-primary': '#082f49', '--text-secondary': '#075985', '--text-muted': '#7dd3fc',
+      '--accent': '#0284c7', '--accent-hover': '#0369a1', '--accent-light': '#e0f2fe',
+      '--border': '#7dd3fc', '--card-bg': '#ffffff',
+    },
+  },
+
+  // --- PROFESSIONAL DASHBOARD PRESETS ---
+  {
+    id: 'banker-blue',
+    name: 'Banker Blue',
+    colors: {
+      '--bg-primary': '#f8fafc', '--bg-secondary': '#eef2f7', '--bg-tertiary': '#d8e0ea',
+      '--text-primary': '#0b1f3a', '--text-secondary': '#29415f', '--text-muted': '#7b8da3',
+      '--accent': '#1d4ed8', '--accent-hover': '#1e40af', '--accent-light': '#dbeafe',
+      '--border': '#c2ccd8', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'executive-charcoal',
+    name: 'Executive Charcoal',
+    colors: {
+      '--bg-primary': '#f7f7f5', '--bg-secondary': '#ececea', '--bg-tertiary': '#d9d9d4',
+      '--text-primary': '#171717', '--text-secondary': '#404040', '--text-muted': '#8a8a84',
+      '--accent': '#3f3f46', '--accent-hover': '#18181b', '--accent-light': '#e4e4e7',
+      '--border': '#c9c9c3', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'sage-office',
+    name: 'Sage Office',
+    colors: {
+      '--bg-primary': '#f8faf6', '--bg-secondary': '#eef3e8', '--bg-tertiary': '#dce8d1',
+      '--text-primary': '#1f2a1f', '--text-secondary': '#475843', '--text-muted': '#8a9a7f',
+      '--accent': '#5f7f4f', '--accent-hover': '#48643a', '--accent-light': '#e5eddc',
+      '--border': '#c8d6bb', '--card-bg': '#ffffff',
+    },
+  },
+  {
+    id: 'corporate-teal',
+    name: 'Corporate Teal',
+    colors: {
+      '--bg-primary': '#f6fbfb', '--bg-secondary': '#e7f5f5', '--bg-tertiary': '#cdecec',
+      '--text-primary': '#092f2f', '--text-secondary': '#155e5e', '--text-muted': '#7fb7b7',
+      '--accent': '#0f766e', '--accent-hover': '#115e59', '--accent-light': '#ccfbf1',
+      '--border': '#99d8d4', '--card-bg': '#ffffff',
+    },
+  },
 ];
 // Define the order of colors for bulk input
 export const COLOR_KEYS = [
