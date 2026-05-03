@@ -5,13 +5,8 @@ import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { useAdmin } from '@/context/AdminContext';
 import { deleteItem, useColl, useDoc } from '@/lib/firestore-helpers';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-    BookOpen, Calendar, ChevronDown,
-    GraduationCap, MapPin, Pencil, Plus, Star, Trash
-} from 'lucide-react';
+import { ArrowRight, BookOpen, GraduationCap, MapPin, Pencil, Plus, Trash } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
 
 const FIELDS = [
   { key: 'title',       label: 'Degree Title' },
@@ -25,16 +20,19 @@ const FIELDS = [
   { key: 'courses',     label: 'Courses', type: 'course-list' },
 ];
 
-const TAG_COLORS = {
-  core:            'bg-blue-500/10 text-blue-500 border-blue-500/20',
-  elective:        'bg-purple-500/10 text-purple-500 border-purple-500/20',
-  'project-based': 'bg-green-500/10 text-green-500 border-green-500/20',
-  lab:             'bg-orange-500/10 text-orange-500 border-orange-500/20',
-  thesis:          'bg-rose-500/10 text-rose-500 border-rose-500/20',
+const TYPE_STYLES = {
+  undergraduate:  { bar: 'bg-blue-500',   badge: 'bg-blue-500/10 text-blue-600 border-blue-200' },
+  postgraduate:   { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
+  masters:        { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
+  phd:            { bar: 'bg-rose-500',   badge: 'bg-rose-500/10 text-rose-600 border-rose-200' },
+  diploma:        { bar: 'bg-emerald-500',badge: 'bg-emerald-500/10 text-emerald-600 border-emerald-200' },
 };
 
-function tagClass(tag) {
-  return TAG_COLORS[tag?.toLowerCase()] || 'bg-[var(--bg-secondary)] text-[var(--text-muted)] border-[var(--border)]';
+function getTypeStyle(type) {
+  return TYPE_STYLES[type?.toLowerCase()] || {
+    bar: 'bg-[var(--accent)]',
+    badge: 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/20',
+  };
 }
 
 function parseCourses(val) {
@@ -43,208 +41,166 @@ function parseCourses(val) {
   catch (_) { return []; }
 }
 
-// ── Course Card ───────────────────────────────────────────────────────────────
-function CourseCard({ course, i }) {
+// ── CGPA Arc ──────────────────────────────────────────────────────────────────
+function CgpaArc({ cgpa }) {
+  const numeric = parseFloat(cgpa);
+  if (isNaN(numeric)) {
+    return (
+      <div className="flex flex-col items-center justify-center w-14 h-14 rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] shrink-0">
+        <span className="text-[12px] font-bold text-[var(--text-primary)] leading-none">{cgpa}</span>
+        <span className="text-[8px] text-[var(--text-muted)] mt-0.5 uppercase tracking-wider">Grade</span>
+      </div>
+    );
+  }
+
+  const max = numeric <= 5 ? 5 : numeric <= 10 ? 10 : 100;
+  const pct = Math.min(numeric / max, 1);
+  const r = 18;
+  const circ = 2 * Math.PI * r;
+  const arcFraction = 0.75;
+  const filled = pct * circ * arcFraction;
+  const empty = circ - filled;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: i * 0.05, duration: 0.2 }}
-      className="flex gap-4 p-4 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--text-primary)]/20 transition-colors"
-    >
-      <div className="w-8 h-8 rounded-lg bg-[var(--card-bg)] border border-[var(--border)] flex items-center justify-center shrink-0 mt-0.5">
-        <BookOpen size={13} className="text-[var(--accent)]" />
+    <div className="relative w-14 h-14 shrink-0">
+      <svg width="56" height="56" viewBox="0 0 56 56" className="-rotate-[135deg]">
+        {/* Track */}
+        <circle
+          cx="28" cy="28" r={r}
+          fill="none"
+          stroke="var(--border)"
+          strokeWidth="3.5"
+          strokeDasharray={`${circ * arcFraction} ${circ * (1 - arcFraction)}`}
+          strokeLinecap="round"
+        />
+        {/* Fill */}
+        <circle
+          cx="28" cy="28" r={r}
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="3.5"
+          strokeDasharray={`${filled} ${empty + circ * (1 - arcFraction)}`}
+          strokeLinecap="round"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-[12px] font-bold text-[var(--text-primary)] leading-none">{numeric}</span>
+        <span className="text-[8px] text-[var(--text-muted)] mt-0.5 uppercase tracking-wider">GPA</span>
       </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-3 mb-1.5">
-          <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">
-            {course.name}
-          </p>
-          {course.tag && (
-            <span className={`shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full border capitalize ${tagClass(course.tag)}`}>
-              {course.tag}
-            </span>
-          )}
-        </div>
-        {course.description && (
-          <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-            {course.description}
-          </p>
-        )}
+    </div>
+  );
+}
+
+// ── Duration Bar ──────────────────────────────────────────────────────────────
+function DurationBar({ duration }) {
+  const parts = duration.split(/[–\-]/).map(s => s.trim());
+  const start = parts[0];
+  const end = parts[1] || 'Present';
+  return (
+    <div className="flex items-center gap-2 max-w-[180px]">
+      <span className="text-[11px] font-semibold text-[var(--text-secondary)] whitespace-nowrap">{start}</span>
+      <div className="flex-1 h-[2px] rounded-full bg-[var(--border)] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[var(--accent)]/50 rounded-full" />
       </div>
-    </motion.div>
+      <span className="text-[11px] font-semibold text-[var(--text-secondary)] whitespace-nowrap">{end}</span>
+    </div>
   );
 }
 
 // ── Education Card ────────────────────────────────────────────────────────────
 function EducationCard({ item, index, editMode, setEditingItem }) {
-  const [open, setOpen] = useState(false);
   const courses = parseCourses(item.courses);
+  const style = getTypeStyle(item.type);
 
   return (
     <MotionDiv delay={index * 0.1}>
-      <Link href={`/education/${item.id}`} className="block relative pl-12 group">
+      <Link href={`/education/${item.id}`} className="group block">
+        <div className="relative flex bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] hover:-translate-y-0.5">
 
-        {/* Timeline dot */}
-        <div className="
-          absolute left-[14px] top-[22px]
-          w-[10px] h-[10px] rounded-full
-          bg-[var(--border)] border-2 border-[var(--bg-primary)]
-          transition-all duration-200
-          group-hover:bg-[var(--accent)] group-hover:scale-125
-        " />
+          {/* Left color bar */}
+          <div className={`w-[3px] shrink-0 ${style.bar} transition-opacity duration-300 opacity-50 group-hover:opacity-100`} />
 
-        {/* Card */}
-        <div className="
-          relative overflow-hidden
-          bg-[var(--card-bg)] border border-[var(--border)] rounded-xl
-          transition-all duration-200
-          group-hover:border-[var(--text-primary)]/25
-          group-hover:translate-x-1
-          before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px]
-          before:bg-[var(--accent)]
-          before:scale-y-0 before:origin-top
-          before:transition-transform before:duration-200
-          group-hover:before:scale-y-100
-        ">
-          <div className="p-5 pb-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
+          <div className="flex flex-1 gap-5 p-5 md:p-6 min-w-0">
 
-                {/* Type badge */}
-                {item.type && (
-                  <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 mb-2">
-                    {item.type}
-                  </span>
-                )}
-
-                {/* Degree title */}
-                <h3 className="text-[16px] font-bold text-[var(--text-primary)] leading-snug mb-2">
-                  {item.title}
-                </h3>
-
-                {/* Institution row — logo + name */}
-                <div className="flex items-center gap-2 mb-2">
-                  {item.logoUrl && (
-                    <img
-                      src={item.logoUrl}
-                      alt={item.institution}
-                      className="w-6 h-6 rounded object-contain border border-[var(--border)] bg-white p-0.5 shrink-0"
-                    />
-                  )}
-                  <p className="text-sm font-medium text-[var(--accent)] flex items-center gap-1.5">
-                    {!item.logoUrl && <GraduationCap size={13} />}
-                    {item.institution}
-                  </p>
+            {/* Institution logo */}
+            <div className="shrink-0">
+              {item.logoUrl ? (
+                <div className="w-[52px] h-[52px] rounded-xl border border-[var(--border)] bg-white flex items-center justify-center p-2 shadow-sm overflow-hidden transition-transform duration-300 group-hover:scale-[1.06]">
+                  <img src={item.logoUrl} alt={item.institution} className="w-full h-full object-contain" />
                 </div>
-
-                {/* Meta row */}
-                <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)]">
-                  {item.duration && (
-                    <span className="flex items-center gap-1">
-                      <Calendar size={11} /> {item.duration}
-                    </span>
-                  )}
-                  {item.location && (
-                    <span className="flex items-center gap-1">
-                      <MapPin size={11} /> {item.location}
-                    </span>
-                  )}
-                  {item.cgpa && (
-                    <span className="flex items-center gap-1 text-[var(--text-primary)] font-medium">
-                      <Star size={11} className="text-yellow-500" /> {item.cgpa}
-                    </span>
-                  )}
+              ) : (
+                <div className="w-[52px] h-[52px] rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] flex items-center justify-center">
+                  <GraduationCap size={20} className="text-[var(--accent)]" />
                 </div>
-              </div>
-
-              {/* Right: logo (large) + edit controls */}
-              <div className="flex flex-col items-end gap-2 shrink-0">
-                {item.logoUrl && (
-                  <div className="w-12 h-12 rounded-lg border border-[var(--border)] bg-white flex items-center justify-center p-1.5 overflow-hidden">
-                    <img
-                      src={item.logoUrl}
-                      alt={item.institution}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                )}
-                {editMode && (
-                  <div className="flex gap-1.5">
-                    <button
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setEditingItem({ collection: 'education', id: item.id, data: item, fields: FIELDS });
-                      }}
-                      className="p-1.5 bg-white rounded shadow hover:bg-gray-50"
-                    >
-                      <Pencil size={13} />
-                    </button>
-                    <button
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        deleteItem('education', item.id);
-                      }}
-                      className="p-1.5 bg-white rounded shadow hover:bg-red-50 text-red-600"
-                    >
-                      <Trash size={13} />
-                    </button>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
 
-            {/* Description */}
-            {item.description && (
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mt-3 line-clamp-2">
-                {item.description}
-              </p>
-            )}
+            {/* Text content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-3 mb-1.5">
+                <div className="min-w-0 flex-1">
+                  {item.type && (
+                    <span className={`inline-block text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full border mb-1.5 ${style.badge}`}>
+                      {item.type}
+                    </span>
+                  )}
+                  <h3 className="text-[15px] font-bold text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent)] transition-colors duration-200">
+                    {item.title}
+                  </h3>
+                </div>
+
+                {/* CGPA arc — top right */}
+                {item.cgpa && <CgpaArc cgpa={item.cgpa} />}
+              </div>
+
+              {/* Institution name */}
+              <p className="text-sm font-semibold text-[var(--accent)] mb-3">{item.institution}</p>
+
+              {/* Duration bar */}
+              {item.duration && <DurationBar duration={item.duration} />}
+
+              {/* Description */}
+              {item.description && (
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2 mt-2.5">
+                  {item.description}
+                </p>
+              )}
+
+              {/* Footer */}
+              <div className="flex items-center gap-4 flex-wrap mt-3">
+                {item.location && (
+                  <span className="inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)]">
+                    <MapPin size={10} /> {item.location}
+                  </span>
+                )}
+                {courses.length > 0 && (
+                  <span className="inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)]">
+                    <BookOpen size={10} className="text-[var(--accent)]" />
+                    {courses.length} courses
+                  </span>
+                )}
+                <span className="ml-auto inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  View details <ArrowRight size={11} />
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Courses accordion */}
-          {courses.length > 0 && (
-            <div className="border-t border-[var(--border)]">
+          {/* Edit controls */}
+          {editMode && (
+            <div className="absolute top-4 right-4 flex gap-1.5 z-10">
               <button
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setOpen(o => !o);
-                }}
-                className="w-full flex items-center justify-between px-5 py-3 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                onClick={e => { e.preventDefault(); e.stopPropagation(); setEditingItem({ collection: 'education', id: item.id, data: item, fields: FIELDS }); }}
+                className="p-1.5 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
               >
-                <span className="flex items-center gap-2">
-                  <BookOpen size={12} />
-                  {open
-                    ? 'Hide courses'
-                    : `Show ${courses.length} course${courses.length > 1 ? 's' : ''}`
-                  }
-                </span>
-                <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <ChevronDown size={14} />
-                </motion.div>
+                <Pencil size={12} />
               </button>
-
-              <AnimatePresence initial={false}>
-                {open && (
-                  <motion.div
-                    key="courses"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: 'easeInOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-5 pb-5 grid sm:grid-cols-2 gap-3 mt-1">
-                      {courses.map((course, i) => (
-                        <CourseCard key={i} course={course} i={i} />
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <button
+                onClick={e => { e.preventDefault(); e.stopPropagation(); deleteItem('education', item.id); }}
+                className="p-1.5 bg-white rounded-lg shadow-sm hover:bg-red-50 text-red-500 transition-colors"
+              >
+                <Trash size={12} />
+              </button>
             </div>
           )}
         </div>
@@ -256,7 +212,7 @@ function EducationCard({ item, index, editMode, setEditingItem }) {
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function EducationPage() {
   const { data } = useDoc('pages/education');
-  const { items } = useColl('education');
+  const { items, loading } = useColl('education');
   const { editMode, setEditingItem } = useAdmin();
 
   return (
@@ -267,28 +223,36 @@ export default function EducationPage() {
         {editMode && (
           <button
             onClick={() => setEditingItem({ collection: 'education', id: null, data: {}, fields: FIELDS })}
-            className="mb-8 px-4 py-2 bg-green-600 text-white rounded flex items-center gap-2 text-sm"
+            className="mb-8 px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2 text-sm font-medium"
           >
             <Plus size={15} /> Add Education
           </button>
         )}
 
-        {items.length === 0 ? (
-          <p className="text-center text-[var(--text-muted)] py-24">No education entries yet.</p>
-        ) : (
-          <div className="relative">
-            <div className="absolute left-[18px] top-0 bottom-0 w-px bg-[var(--border)]" />
-            <div className="flex flex-col gap-4">
-              {items.map((item, i) => (
-                <EducationCard
-                  key={item.id}
-                  item={item}
-                  index={i}
-                  editMode={editMode}
-                  setEditingItem={setEditingItem}
-                />
-              ))}
+        {loading ? (
+          <div className="flex flex-col gap-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-28 bg-[var(--bg-secondary)] animate-pulse rounded-2xl" />
+            ))}
+          </div>
+        ) : items.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] flex items-center justify-center">
+              <GraduationCap size={28} className="text-[var(--text-muted)]" />
             </div>
+            <p className="text-[var(--text-muted)] text-sm">No education entries yet.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {items.map((item, i) => (
+              <EducationCard
+                key={item.id}
+                item={item}
+                index={i}
+                editMode={editMode}
+                setEditingItem={setEditingItem}
+              />
+            ))}
           </div>
         )}
       </section>
