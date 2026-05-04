@@ -1,0 +1,107 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap");
+
+/*
+ * ── CAT COLOR VARIABLES ─────────────────────────────────
+ * Override these on :root or any parent to recolor the cat.
+ * Default palette: warm cream tabby (matches reference image).
+ *
+ * Example dark theme override:
+ *   .dark-theme { --cat-base: #7c9cbf; --cat-stripe: #3a5a7a; ... }
+ */
+:root {
+  --cat-base: #f5d9a8; /* warm cream — main body & head        */
+  --cat-mid: #e8c07a; /* slightly darker — tail, depth        */
+  --cat-stripe: #c48b3a; /* tabby stripes, outlines              */
+  --cat-dark: #7a5018; /* darkest — pencil body                */
+  --cat-belly: #fdf0d5; /* inner belly / muzzle lighter area    */
+  --cat-ear: #f9a8c9; /* inner ear pink                       */
+  --cat-nose: #e07090; /* nose triangle + cheek blush          */
+  --cat-eye: #5a3d28; /* iris warm brown                      */
+}
+
+/* ── HERO SECTION ─────────────────────────────────────── */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+ * wall: overflow MUST be visible.
+ * The cat walks in from x = -100px (off-screen left) and its
+ * head/tail protrude above the card top while walking.
+ * Clipping here would slice the cat in half.
+ */
+.wall {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  border-radius: 12px;
+  padding: 14px 32px 20px;
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border);
+  overflow: visible;
+}
+
+/* Ruled lines — uses a separate pseudo-element clipped to the card shape */
+.wall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    color-mix(in srgb, var(--border) 60%, transparent) 31px,
+    color-mix(in srgb, var(--border) 60%, transparent) 32px
+  );
+}
+
+/*
+ * writingArea: padding-top = cat SVG height (60px) + 8px gap = 68px.
+ *
+ * This reserves vertical space ABOVE the canvases so the cat
+ * head is visible while feet rest on the canvas top edge.
+ * The wall height = just this area — stays compact.
+ *
+ * Layout inside writingArea:
+ *   0px          ← catStage top (cat feet land at +60px = canvas top)
+ *   68px         ← titleCanvas top   (= padding-top)
+ *   68px + 60px  ← titleCanvas bottom
+ *   + 4px gap
+ *   + 36px       ← subCanvas bottom
+ */
+.writingArea {
+  position: relative;
+  width: 100%;
+  padding-top: 68px;
+}
+
+.titleCanvas {
+  display: block;
+  width: 100%;
+  height: 60px;
+}
+
+.subCanvas {
+  display: block;
+  width: 100%;
+  height: 36px;
+  margin-top: 4px;
+}
+
+/*
+ * catStage: absolutely positioned at top:0 / left:0 of writingArea.
+ * JS applies transform: translate(catX, catY) to walk it along.
+ * catY = tc.offsetTop - 60  →  feet at exactly canvas top edge.
+ * overflow:visible on .wall means the head shows above the card.
+ */
+.catStage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
