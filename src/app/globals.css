@@ -23,6 +23,16 @@
 
   --border: #d6d3d1;
   --card-bg: #ffffff;
+
+  /* Cat hero palette */
+  --cat-base: #f5d9a8;
+  --cat-mid: #e8c07a;
+  --cat-stripe: #c48b3a;
+  --cat-dark: #7a5018;
+  --cat-belly: #fdf0d5;
+  --cat-ear: #f9a8c9;
+  --cat-nose: #e07090;
+  --cat-eye: #5a3d28;
 }
 
 /* 
