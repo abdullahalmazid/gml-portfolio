@@ -492,16 +492,16 @@ export default function PageHero({ pageId, data }) {
       /*
        * SVG foot baseline = y:60.
        * .writingArea has padding-top: 68px.
-       * tc.offsetTop ≈ 68 (canvas top within writingArea).
-       * walkY = tc.offsetTop - 60 → feet land exactly on canvas top edge.
-       * The 8px gap above keeps the head clear of the card edge.
+       * tc.offsetTop ≈ 68 (canvas top of canvas inside writingArea ).
+       * walkY = tc.offsetTop - 60  →  cat feet land on canvas top edge.
+       * The 8px above canvas top is the padding buffer, so head is fully visible.
        */
       const walkY = tc.offsetTop - 60;
       s.catX = -100;
       s.catY = walkY;
       placeCat(-100, walkY);
 
-      // pencil tip x in SVG ≈ 10; align with first char
+      // pencil tip at SVG x≈10; walk so tip aligns with first char start
       const targetX = titleStartX - 10;
       s.phase = 'walkin';
 
@@ -530,7 +530,16 @@ export default function PageHero({ pageId, data }) {
                     if (catRefs.svgRef.current)
                       catRefs.svgRef.current.style.transform = 'scaleX(-1)';
                     const paper = tc.closest('[class*="wall"]') || tc.parentElement?.parentElement;
-                    const exitX = (paper?.offsetWidth || 700) + 100;
+                    
+                    // Keep the cat *entirely* inside the wall boundary during mobile mode exit
+                    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+                    const wallWidth = paper?.offsetWidth || 350;
+                    // The cat's width is about 72px + offset.
+                    // Setting exitX 96px less than the width keeps it safely contained without overflowing the padding.
+                    const exitX = isMobile
+                      ? wallWidth - 96 
+                      : (paper?.offsetWidth || 700) + 100;
+
                     tween(s.catX, exitX, 1000, easeIn,
                       (x) => { s.catX = x; placeCat(x, s.catY); },
                       () => { s.phase = 'idle'; }
@@ -545,7 +554,6 @@ export default function PageHero({ pageId, data }) {
     });
   }, [data, editMode, placeCat, moveCatToWrite, writeOnCanvas]);
 
-  /* ── EDIT MODE ── */
   if (editMode) {
     return (
       <section className={styles.hero}>
@@ -567,7 +575,6 @@ export default function PageHero({ pageId, data }) {
     );
   }
 
-  /* ── NORMAL MODE ── */
   return (
     <section className={styles.hero}>
       <div className={styles.wall}>
