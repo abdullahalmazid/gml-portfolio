@@ -10,18 +10,23 @@ import { ThemeProvider } from '@/context/ThemeContext'; // Import the new provid
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
-export const metadata = { title: "Abdullah's Portfolio",
-                          description: 'Full Stack Developer & Designer Portfolio',
-                          icons: {
-                            icon: '/favicon.ico', // <- This looks for favicon.ico in your /public or /app folder
-                          },
-
- };
+export const metadata = { 
+  title: "Abdullah's Portfolio",
+  description: 'Full Stack Developer & Designer Portfolio',
+  icons: {
+    icon: '/favicon.ico', 
+  },
+  verification: {
+    google: 'zi-0FPJGSsw4APGb0K87hzl00viBROQ991xPs35heIU', // Added your verification code here
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head><script src="https://upload-widget.cloudinary.com/global/all.js" async /></head>
+      <head>
+        <script src="https://upload-widget.cloudinary.com/global/all.js" async />
+      </head>
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
           <AdminProvider>
