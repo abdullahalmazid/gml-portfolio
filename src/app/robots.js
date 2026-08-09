@@ -1,3 +1,5 @@
+import { SITE } from '@/lib/seo';
+
 export default function robots() {
   return {
     rules: [
@@ -7,6 +9,9 @@ export default function robots() {
         disallow: ['/admin', '/login'],
       },
     ],
-    sitemap: 'https://your-portfolio-domain.com/sitemap.xml',
+    // Previously hardcoded to a placeholder domain, so no crawler could find
+    // the sitemap at all.
+    sitemap: `${SITE.url}/sitemap.xml`,
+    host: SITE.url,
   };
 }
