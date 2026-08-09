@@ -80,6 +80,7 @@ export default function FeaturedMode({ section, items = [] }) {
             titleAs="h3"
             titleSize="lg"
             bodyLines={bodyLines + 2}
+            showLinks
           />
 
           {parts.href && (

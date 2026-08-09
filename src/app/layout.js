@@ -10,14 +10,13 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
-
 // ── Improved SEO metadata with Open Graph and Twitter Card support ──
 export const metadata = {
   title: {
-    default: "Abdullah Al Mazid | Researcher, Learner, and Engineer",
+    default: "Abdullah Al Mazid | Full Stack Developer",
     template: "%s | Abdullah Al Mazid",
   },
-  description: 'Portfolio of Abdullah Al Mazid — Researcher, Learner, and Engineer specializing in modern web applications, machine learning, and academic publications.',
+  description: 'Portfolio of Abdullah Al Mazid — Full Stack Developer & Researcher specializing in modern web applications, machine learning, and academic publications.',
   keywords: ['Full Stack Developer', 'Next.js', 'React', 'Firebase', 'Portfolio', 'Research', 'Bangladesh'],
   authors: [{ name: 'Abdullah Al Mazid' }],
   creator: 'Abdullah Al Mazid',
@@ -35,7 +34,6 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Abdullah Al Mazid | Full Stack Developer & Researcher',
     description: 'Full Stack Developer & Researcher — building modern web applications with passion and precision.',
-
   },
 };
 
@@ -43,13 +41,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-
         {/*
           Cloudinary widget is loaded lazily only when admin mode is active.
           Moved from a global script tag to avoid loading ~200KB for every visitor.
           The AdminToolbar component handles dynamic loading when needed.
         */}
-
       </head>
       <body className="min-h-screen flex flex-col">
         <AuthProvider>

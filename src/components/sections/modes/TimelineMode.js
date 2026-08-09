@@ -15,7 +15,7 @@
  */
 
 import MotionDiv from '@/components/ui/MotionDiv';
-import { ItemContent, resolveItem } from '../ItemFields';
+import { ItemContent, ItemLinks, resolveItem } from '../ItemFields';
 import { CardLink, EmptyItems, ItemThumb } from '../ItemMedia';
 
 /**
@@ -53,11 +53,10 @@ export default function TimelineMode({ section, items = [] }) {
       {/* The spine. Centred when alternating, left-hand otherwise.
           It stops short at top and bottom so it doesn't run past the end dots. */}
       <div
-        className={`absolute top-3 bottom-3 w-px ${
-          dashed
+        className={`absolute top-3 bottom-3 w-px ${dashed
             ? 'border-l border-dashed border-[var(--border)]'
             : 'bg-gradient-to-b from-transparent via-[var(--border)] to-transparent'
-        } ${alternating ? 'left-4 md:left-1/2 md:-translate-x-px' : 'left-4'}`}
+          } ${alternating ? 'left-4 md:left-1/2 md:-translate-x-px' : 'left-4'}`}
         aria-hidden="true"
       />
 
@@ -71,15 +70,13 @@ export default function TimelineMode({ section, items = [] }) {
             <li key={item.id} className="relative">
               <MotionDiv delay={i * 0.08}>
                 <div
-                  className={`relative flex ${
-                    alternating ? 'md:items-center' : ''
-                  } ${flip ? 'md:flex-row-reverse' : ''}`}
+                  className={`relative flex ${alternating ? 'md:items-center' : ''
+                    } ${flip ? 'md:flex-row-reverse' : ''}`}
                 >
                   {/* Dot on the spine */}
                   <span
-                    className={`absolute top-2 z-10 flex items-center justify-center ${
-                      alternating ? 'left-4 md:left-1/2 md:-translate-x-1/2' : 'left-4'
-                    } -translate-x-1/2`}
+                    className={`absolute top-2 z-10 flex items-center justify-center ${alternating ? 'left-4 md:left-1/2 md:-translate-x-1/2' : 'left-4'
+                      } -translate-x-1/2`}
                     aria-hidden="true"
                   >
                     <span className="w-3 h-3 rounded-full bg-[var(--accent)] ring-4 ring-[var(--bg-primary)]" />
@@ -89,11 +86,10 @@ export default function TimelineMode({ section, items = [] }) {
                       when alternating. */}
                   {marker && (
                     <div
-                      className={`hidden md:block shrink-0 ${
-                        alternating
+                      className={`hidden md:block shrink-0 ${alternating
                           ? `md:w-1/2 ${flip ? 'md:pl-12 md:text-left' : 'md:pr-12 md:text-right'}`
                           : 'w-28 pl-10 pr-4 text-left'
-                      }`}
+                        }`}
                     >
                       <span className="inline-block text-sm font-bold tabular-nums tracking-wide text-[var(--accent)]">
                         {marker}
@@ -103,13 +99,12 @@ export default function TimelineMode({ section, items = [] }) {
 
                   {/* Card */}
                   <div
-                    className={`flex-1 min-w-0 pl-10 ${
-                      alternating
+                    className={`flex-1 min-w-0 pl-10 ${alternating
                         ? `md:w-1/2 md:flex-none ${flip ? 'md:pr-12 md:pl-0' : 'md:pl-12'}`
                         : marker
                           ? 'md:pl-0'
                           : 'md:pl-10'
-                    }`}
+                      }`}
                   >
                     <CardLink
                       href={parts.href}
@@ -135,6 +130,10 @@ export default function TimelineMode({ section, items = [] }) {
                         />
                       </div>
                     </CardLink>
+
+                    {parts.links.length > 0 && (
+                      <ItemLinks links={parts.links} className="mt-2 px-5 md:px-6" />
+                    )}
                   </div>
                 </div>
               </MotionDiv>

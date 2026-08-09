@@ -17,6 +17,7 @@
  * which is why the buttons stay. They are the mobile and keyboard path.
  */
 
+import RichTextEditorLoader from '@/components/ui/RichTextEditorLoader';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import {
   BLOCKS,
@@ -252,8 +253,8 @@ function ColumnTabs({ block, onChange }) {
             type="button"
             onClick={() => setActive(i)}
             className={`flex-1 px-2 py-1.5 rounded-md text-[11px] font-bold transition-colors ${active === i
-                ? 'bg-[var(--accent)] text-white'
-                : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              ? 'bg-[var(--accent)] text-white'
+              : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
           >
             Column {i + 1}
@@ -298,10 +299,18 @@ function BlockProp({ prop, value, onChange }) {
     );
   }
 
-  if (prop.type === 'markdown' || prop.type === 'textarea') {
+  if (prop.type === 'markdown') {
     return (
       <Field label={prop.label} help={prop.help}>
-        <TextArea rows={prop.type === 'markdown' ? 6 : 3} value={value} onChange={onChange} />
+        <RichTextEditorLoader value={value} onChange={onChange} minHeight={140} />
+      </Field>
+    );
+  }
+
+  if (prop.type === 'textarea') {
+    return (
+      <Field label={prop.label} help={prop.help}>
+        <TextArea rows={3} value={value} onChange={onChange} />
       </Field>
     );
   }

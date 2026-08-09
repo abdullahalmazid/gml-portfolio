@@ -11,7 +11,7 @@
 
 import MotionDiv from '@/components/ui/MotionDiv';
 import { ArrowRight } from 'lucide-react';
-import { ItemContent, resolveItem } from '../ItemFields';
+import { ItemContent, ItemLinks, resolveItem } from '../ItemFields';
 import { CardLink, EmptyItems, ItemImage } from '../ItemMedia';
 
 // Written out in full rather than interpolated, so Tailwind's scanner keeps them.
@@ -26,7 +26,7 @@ const GAP = { sm: 'gap-4', md: 'gap-6 md:gap-8', lg: 'gap-8 md:gap-12' };
 const CARD_STYLE = {
   elevated: 'bg-[var(--card-bg)] shadow-sm ring-1 ring-black/5 dark:ring-white/10 hover:shadow-xl hover:-translate-y-1.5 hover:ring-[var(--accent)]/40',
   outlined: 'bg-transparent border border-[var(--border)] hover:border-[var(--accent)] hover:-translate-y-1',
-  flat:     'bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)]',
+  flat: 'bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)]',
 };
 
 export default function GridMode({ section, items = [] }) {
@@ -85,6 +85,12 @@ export default function GridMode({ section, items = [] }) {
                 )}
               </div>
             </CardLink>
+
+            {parts.links.length > 0 && (
+              <div className="px-5 md:px-6 pb-4 -mt-2">
+                <ItemLinks links={parts.links} className="mt-0" />
+              </div>
+            )}
           </MotionDiv>
         );
       })}

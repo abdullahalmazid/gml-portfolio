@@ -14,7 +14,7 @@
  * Types: heading | richtext | image | quote | button | columns | divider | spacer
  */
 
-import MarkdownRenderer from '@/components/ui/MarkdownRenderer';
+import RichContent from '@/components/ui/RichContent';
 import MotionDiv from '@/components/ui/MotionDiv';
 import {
   COLUMN_GAP,
@@ -50,16 +50,10 @@ export function Block({ block, nested = false }) {
     }
 
     case 'richtext':
+      // RichContent handles both the editor's HTML and older markdown.
       return (
-        <div
-          className={`prose dark:prose-invert max-w-none text-[var(--text-secondary)] leading-relaxed ${nested ? 'prose-base' : 'prose-lg'}
-            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[var(--text-primary)]
-            prose-a:text-[var(--accent)] prose-a:font-semibold prose-a:no-underline hover:prose-a:underline hover:prose-a:underline-offset-4
-            prose-blockquote:border-l-4 prose-blockquote:border-[var(--accent)] prose-blockquote:bg-[var(--bg-secondary)]
-            prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-[var(--text-primary)]
-            prose-strong:text-[var(--text-primary)] ${align}`}
-        >
-          <MarkdownRenderer>{props.markdown}</MarkdownRenderer>
+        <div className={align}>
+          <RichContent content={props.markdown} size={nested ? 'sm' : 'lg'} />
         </div>
       );
 
@@ -103,8 +97,8 @@ export function Block({ block, nested = false }) {
           <Link
             href={props.href}
             className={`group inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 active:scale-95 ${isOutline
-                ? 'border border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white'
-                : 'bg-[var(--accent)] text-white shadow-md hover:shadow-lg'
+              ? 'border border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white'
+              : 'bg-[var(--accent)] text-white shadow-md hover:shadow-lg'
               }`}
           >
             {props.label || 'Learn more'}

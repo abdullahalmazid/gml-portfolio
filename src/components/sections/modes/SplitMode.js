@@ -68,13 +68,14 @@ export default function SplitMode({ section, items = [] }) {
             titleAs="h3"
             titleSize="lg"
             bodyLines={6}
+            showLinks
           />
 
           {parts.href && (
             <div className="mt-8">
               <Link
                 href={parts.href}
-                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all duration-300"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent)] text-[var(--accent-contrast)] font-semibold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all duration-300"
               >
                 Read more
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

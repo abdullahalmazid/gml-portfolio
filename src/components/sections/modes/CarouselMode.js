@@ -144,9 +144,8 @@ export default function CarouselMode({ section, items = [] }) {
       <div className="grid md:grid-cols-12 gap-8 lg:gap-16 items-center">
         {/* TEXT */}
         <div
-          className={`flex flex-col justify-center md:col-span-5 order-2 ${
-            textOnLeft ? 'md:order-1' : 'md:order-2'
-          }`}
+          className={`flex flex-col justify-center md:col-span-5 order-2 ${textOnLeft ? 'md:order-1' : 'md:order-2'
+            }`}
         >
           {parts.featured && (
             <span className="inline-flex self-start items-center gap-1.5 mb-5 px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-bold tracking-widest uppercase">
@@ -160,6 +159,7 @@ export default function CarouselMode({ section, items = [] }) {
             titleAs="h3"
             titleSize="xl"
             bodyLines={5}
+            showLinks
           />
 
           {parts.href && (
@@ -169,7 +169,7 @@ export default function CarouselMode({ section, items = [] }) {
                 className="group inline-flex items-center gap-3 text-[var(--accent)] font-semibold hover:opacity-80 transition-opacity"
               >
                 Read more
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent)]/10 group-hover:bg-[var(--accent)] group-hover:text-white transition-colors duration-300">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--accent)]/10 group-hover:bg-[var(--accent)] group-hover:text-[var(--accent-contrast)] transition-colors duration-300">
                   <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </Link>
@@ -179,9 +179,8 @@ export default function CarouselMode({ section, items = [] }) {
 
         {/* IMAGE FRAME */}
         <div
-          className={`group/frame relative aspect-[4/3] md:aspect-auto md:h-[520px] w-full rounded-[1.75rem] overflow-hidden shadow-2xl ring-1 ring-black/5 dark:ring-white/10 bg-[var(--bg-tertiary)] md:col-span-7 order-1 ${
-            textOnLeft ? 'md:order-2' : 'md:order-1'
-          }`}
+          className={`group/frame relative aspect-[4/3] md:aspect-auto md:h-[520px] w-full rounded-[1.75rem] overflow-hidden shadow-2xl ring-1 ring-black/5 dark:ring-white/10 bg-[var(--bg-tertiary)] md:col-span-7 order-1 ${textOnLeft ? 'md:order-2' : 'md:order-1'
+            }`}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -198,9 +197,8 @@ export default function CarouselMode({ section, items = [] }) {
                   sizes="(max-width: 768px) 100vw, 60vw"
                   priority={i === 0}
                   unoptimized
-                  className={`object-cover transition-all duration-1000 ease-in-out ${
-                    i === index ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
-                  }`}
+                  className={`object-cover transition-all duration-1000 ease-in-out ${i === index ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
+                    }`}
                 />
               ) : null
             )
@@ -250,9 +248,8 @@ function NavButton({ side, onClick }) {
       type="button"
       onClick={(e) => { e.preventDefault(); onClick(); }}
       aria-label={side === 'left' ? 'Previous' : 'Next'}
-      className={`absolute top-1/2 -translate-y-1/2 ${
-        side === 'left' ? 'left-4' : 'right-4'
-      } z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover/frame:opacity-100 hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-300`}
+      className={`absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-4' : 'right-4'
+        } z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover/frame:opacity-100 hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-300`}
     >
       <Icon size={22} />
     </button>

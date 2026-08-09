@@ -274,7 +274,12 @@ export function ItemContent({
   bodyLines = 3,
   separator = 'dot',
   showTags = true,
-  showLinks = true,
+  // Opt-in, not opt-out. Most modes wrap the whole card in a <Link>, and an
+  // <a> inside an <a> is invalid HTML: the browser restructures it, the server
+  // and client markup stop matching, and React abandons hydration — which
+  // renders the section blank. Modes that want external links must place
+  // <ItemLinks> OUTSIDE their CardLink.
+  showLinks = false,
   className = '',
 }) {
   return (
