@@ -16,7 +16,7 @@
  * download Tiptap.
  */
 
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizeHtml } from '@/lib/sanitize-html';
 import { useMemo } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
 
@@ -26,33 +26,17 @@ export function isHtmlContent(value) {
   return /<(p|h[1-6]|ul|ol|li|blockquote|strong|em|u|s|a|img|table|hr|pre|code|mark|div|span|br)\b[^>]*>/i.test(value);
 }
 
-const ALLOWED_TAGS = [
-  'p', 'br', 'hr', 'div', 'span',
-  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-  'strong', 'b', 'em', 'i', 'u', 's', 'mark', 'code', 'pre',
-  'ul', 'ol', 'li', 'blockquote',
-  'a', 'img',
-  'table', 'thead', 'tbody', 'tr', 'th', 'td',
-];
-
-const ALLOWED_ATTR = [
-  'href', 'target', 'rel', 'title',
-  'src', 'alt', 'width', 'height',
-  'class', 'style',
-  'colspan', 'rowspan',
-];
-
 /**
- * Only you can write this content, so the risk is low — but sanitising also
- * strips the styling junk that comes with pasting from Word or a web page,
- * which is the more common problem in practice.
+ * Only the site owner can write this content, so the risk is low — but
+ * sanitising also strips the styling junk that arrives when pasting from Word
+ * or a web page, which is the more common problem in practice.
+ *
+ * Uses a dependency-free sanitizer: DOMPurify's isomorphic build pulls in
+ * jsdom, whose dependency chain throws ERR_REQUIRE_ESM inside Vercel's
+ * serverless runtime — it builds locally and fails in production.
  */
 export function sanitize(html) {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS,
-    ALLOWED_ATTR,
-    ALLOW_DATA_ATTR: false,
-  });
+  return sanitizeHtml(html);
 }
 
 /**
