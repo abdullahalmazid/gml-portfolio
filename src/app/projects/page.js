@@ -1,16 +1,17 @@
 'use client';
-import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
 import PageHero from '@/components/pages/PageHero';
 import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { useAdmin } from '@/context/AdminContext';
 import { deleteItem, useColl, useDoc } from '@/lib/firestore-helpers';
 import { ArrowRight, Pencil, Plus, Trash } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const FIELDS = [
   { key: 'title', label: 'Title' },
   { key: 'description', label: 'Description', type: 'textarea' },
+  { key: 'imageUrl', label: 'Cover image', type: 'image' },
   { key: 'tech', label: 'Tech (comma-separated)' },
   { key: 'github', label: 'GitHub URL' },
   { key: 'live', label: 'Live URL' },
@@ -74,10 +75,12 @@ export default function ProjectsPage() {
                     <div className="relative h-44 overflow-hidden bg-[var(--bg-secondary)] shrink-0">
                       {thumbnail ? (
                         <>
-                          <img
+                          <Image
                             src={thumbnail}
                             alt={project.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            unoptimized
                           />
 
                           {/* Dark scrim on hover */}
@@ -118,10 +121,10 @@ export default function ProjectsPage() {
                         /* Fallback placeholder when no linked gallery image */
                         <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor" fillOpacity="0.1"/>
-                            <rect x="8" y="8" width="16" height="3" rx="1.5" fill="currentColor" fillOpacity="0.2"/>
-                            <rect x="8" y="14" width="10" height="2" rx="1" fill="currentColor" fillOpacity="0.15"/>
-                            <rect x="8" y="19" width="13" height="2" rx="1" fill="currentColor" fillOpacity="0.15"/>
+                            <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor" fillOpacity="0.1" />
+                            <rect x="8" y="8" width="16" height="3" rx="1.5" fill="currentColor" fillOpacity="0.2" />
+                            <rect x="8" y="14" width="10" height="2" rx="1" fill="currentColor" fillOpacity="0.15" />
+                            <rect x="8" y="19" width="13" height="2" rx="1" fill="currentColor" fillOpacity="0.15" />
                           </svg>
                         </div>
                       )}
@@ -170,9 +173,7 @@ export default function ProjectsPage() {
       </section>
 
       <SectionRenderer pageId="projects" />
-      <div className="container mx-auto px-6 pb-10">
-        <DynamicSectionManager pageId="projects" />
-      </div>
+
     </main>
   );
 }

@@ -1,13 +1,14 @@
 ﻿'use client';
+import { DetailPageSkeleton } from '@/components/ui/Skeleton';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
 import {
-    ArrowLeft, ArrowUp, Calendar,
-    Check,
-    Clock,
-    Copy,
-    Facebook,
-    Twitter
+  ArrowLeft, ArrowUp, Calendar,
+  Check,
+  Clock,
+  Copy,
+  Facebook,
+  Twitter
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -284,7 +285,7 @@ function RelatedPosts({ posts }) {
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                   <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-                    <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1"/>
+                    <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1" />
                   </svg>
                 </div>
               )}
@@ -368,7 +369,7 @@ export default function BlogDetailPage() {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Loading...</div>;
+  if (loading) return <DetailPageSkeleton />;
   if (!post) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Post not found.</div>;
 
   const headings = extractHeadings(post.content);
@@ -398,7 +399,7 @@ export default function BlogDetailPage() {
           {/* Title area */}
           <div className="absolute bottom-0 left-0 right-0 p-8 max-w-3xl">
             {post.category && (
-              <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--accent)] text-white mb-3">
+              <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--accent)] text-[var(--accent-contrast)] mb-3">
                 {post.category}
               </span>
             )}

@@ -1,5 +1,4 @@
 ﻿'use client';
-import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
 import PageHero from '@/components/pages/PageHero';
 import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
@@ -77,9 +76,9 @@ export default function BlogPage() {
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                            <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1"/>
-                            <circle cx="14" cy="16" r="3" fill="currentColor" fillOpacity="0.2"/>
-                            <path d="M4 26l8-6 6 5 5-4 13 9" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1" />
+                            <circle cx="14" cy="16" r="3" fill="currentColor" fillOpacity="0.2" />
+                            <path d="M4 26l8-6 6 5 5-4 13 9" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.2" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </div>
                       )}
@@ -160,9 +159,9 @@ export default function BlogPage() {
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[var(--text-muted)]">
                             <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-                              <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1"/>
-                              <circle cx="14" cy="16" r="3" fill="currentColor" fillOpacity="0.2"/>
-                              <path d="M4 26l8-6 6 5 5-4 13 9" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <rect x="4" y="8" width="32" height="24" rx="4" fill="currentColor" fillOpacity="0.1" />
+                              <circle cx="14" cy="16" r="3" fill="currentColor" fillOpacity="0.2" />
+                              <path d="M4 26l8-6 6 5 5-4 13 9" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </div>
                         )}
@@ -216,9 +215,7 @@ export default function BlogPage() {
       </section>
 
       <SectionRenderer pageId="blog" />
-      <div className="container mx-auto px-6 pb-10">
-        <DynamicSectionManager pageId="blog" />
-      </div>
+
     </main>
   );
 }

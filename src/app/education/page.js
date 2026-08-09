@@ -1,5 +1,4 @@
 ﻿'use client';
-import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
 import PageHero from '@/components/pages/PageHero';
 import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
@@ -9,23 +8,23 @@ import { ArrowRight, BookOpen, GraduationCap, MapPin, Pencil, Plus, Trash } from
 import Link from 'next/link';
 
 const FIELDS = [
-  { key: 'title',       label: 'Degree Title' },
+  { key: 'title', label: 'Degree Title' },
   { key: 'institution', label: 'Institution Name' },
-  { key: 'logoUrl',     label: 'Institution Logo', type: 'image' },
-  { key: 'location',    label: 'Location' },
-  { key: 'duration',    label: 'Duration (e.g. 2018 – 2022)' },
-  { key: 'cgpa',        label: 'CGPA / Grade' },
-  { key: 'type',        label: 'Type (e.g. Undergraduate / Postgraduate)' },
+  { key: 'logoUrl', label: 'Institution Logo', type: 'image' },
+  { key: 'location', label: 'Location' },
+  { key: 'duration', label: 'Duration (e.g. 2018 – 2022)' },
+  { key: 'cgpa', label: 'CGPA / Grade' },
+  { key: 'type', label: 'Type (e.g. Undergraduate / Postgraduate)' },
   { key: 'description', label: 'Short Description', type: 'textarea' },
-  { key: 'courses',     label: 'Courses', type: 'course-list' },
+  { key: 'courses', label: 'Courses', type: 'course-list' },
 ];
 
 const TYPE_STYLES = {
-  undergraduate:  { bar: 'bg-blue-500',   badge: 'bg-blue-500/10 text-blue-600 border-blue-200' },
-  postgraduate:   { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
-  masters:        { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
-  phd:            { bar: 'bg-rose-500',   badge: 'bg-rose-500/10 text-rose-600 border-rose-200' },
-  diploma:        { bar: 'bg-emerald-500',badge: 'bg-emerald-500/10 text-emerald-600 border-emerald-200' },
+  undergraduate: { bar: 'bg-blue-500', badge: 'bg-blue-500/10 text-blue-600 border-blue-200' },
+  postgraduate: { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
+  masters: { bar: 'bg-violet-500', badge: 'bg-violet-500/10 text-violet-600 border-violet-200' },
+  phd: { bar: 'bg-rose-500', badge: 'bg-rose-500/10 text-rose-600 border-rose-200' },
+  diploma: { bar: 'bg-emerald-500', badge: 'bg-emerald-500/10 text-emerald-600 border-emerald-200' },
 };
 
 function getTypeStyle(type) {
@@ -258,9 +257,7 @@ export default function EducationPage() {
       </section>
 
       <SectionRenderer pageId="education" />
-      <div className="container mx-auto px-6 pb-10">
-        <DynamicSectionManager pageId="education" />
-      </div>
+
     </main>
   );
 }

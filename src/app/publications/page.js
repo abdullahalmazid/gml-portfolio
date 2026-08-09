@@ -1,5 +1,4 @@
 'use client';
-import DynamicSectionManager from '@/components/pages/DynamicSectionManager';
 import PageHero from '@/components/pages/PageHero';
 import SectionRenderer from '@/components/sections/SectionRenderer';
 import MotionDiv from '@/components/ui/MotionDiv';
@@ -72,7 +71,7 @@ export default function PublicationsPage() {
                     </h3>
 
                     <p className="text-sm text-[var(--text-secondary)] mt-1 mb-1">
-                      {item.journal}{item.year ? ` · ${item.year}` : ''}
+                      {item.journal}
                     </p>
 
                     {item.authors && (
@@ -135,9 +134,7 @@ export default function PublicationsPage() {
       </section>
 
       <SectionRenderer pageId="publications" />
-      <div className="container mx-auto px-6 pb-10">
-        <DynamicSectionManager pageId="publications" />
-      </div>
+
     </main>
   );
 }

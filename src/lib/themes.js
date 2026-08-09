@@ -1,3 +1,4 @@
+import { contrastRatio, isDarkPalette } from './palette';
 ﻿export const PRESET_THEMES = [
   // --- CLASSIC & ELEGANT ---
   { 
@@ -433,9 +434,25 @@ export function parseCommaSeparatedColors(str) {
 export function applyThemeColors(colors) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
+
   Object.entries(colors).forEach(([key, value]) => {
     root.style.setProperty(key, value);
   });
+
+  // Presets predate this token, so derive it when missing. Without it, any
+  // text sitting on the accent colour would have no colour at all.
+  if (!colors['--accent-contrast'] && colors['--accent']) {
+    const white = contrastRatio('#ffffff', colors['--accent']);
+    const black = contrastRatio('#0a0a0a', colors['--accent']);
+    root.style.setProperty('--accent-contrast', white >= black ? '#ffffff' : '#0a0a0a');
+  }
+
+  // Tailwind's dark: variants are keyed to this class. Driving it from the
+  // palette keeps them in step with the chosen theme rather than the visitor's
+  // operating system setting.
+  const dark = isDarkPalette(colors);
+  root.classList.toggle('dark', dark);
+  root.style.colorScheme = dark ? 'dark' : 'light';
 }
 
 export function getThemeById(id) {

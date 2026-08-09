@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
@@ -158,7 +158,9 @@ export default function LinkedSection({ section, index }) {
             <div className={`relative ${layout === 'side-right' ? 'order-1 md:order-2' : 'order-2 md:order-1'}`}>
               {/* Decorative background blur to give the image depth */}
               <div className="absolute -inset-4 bg-gradient-to-tr from-[var(--accent)]/20 to-transparent blur-2xl rounded-full opacity-50"></div>
-              <img src={visibleItems[0].imageUrl || '/placeholder.jpg'} className="relative rounded-2xl shadow-2xl w-full aspect-[4/3] object-cover ring-1 ring-black/5" alt="" />
+              <div className="relative aspect-[4/3] w-full rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5">
+                <Image src={visibleItems[0].imageUrl || '/placeholder.jpg'} fill className="object-cover" alt="" unoptimized />
+              </div>
             </div>
             <div className={layout === 'side-right' ? 'order-2 md:order-1' : 'order-1 md:order-2'}>
               <h3 className="text-3xl font-bold mb-4 text-[var(--text-primary)] tracking-tight">{visibleItems[0].title}</h3>

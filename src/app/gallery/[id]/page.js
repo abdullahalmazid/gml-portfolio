@@ -1,4 +1,5 @@
 ﻿'use client';
+import { DetailPageSkeleton } from '@/components/ui/Skeleton';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ArrowRight } from 'lucide-react';
@@ -89,9 +90,9 @@ function ImageViewer({ src, alt }) {
           title="Zoom out"
         >
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
-            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-            <path d="M4 6h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2" />
+            <path d="M4 6h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </button>
 
@@ -107,9 +108,9 @@ function ImageViewer({ src, alt }) {
           title="Zoom in"
         >
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
-            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-            <path d="M4 6h4M6 4v4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2" />
+            <path d="M4 6h4M6 4v4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </button>
 
@@ -122,7 +123,7 @@ function ImageViewer({ src, alt }) {
           title="Reset view"
         >
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7a5 5 0 1 0 1-3M2 2v3h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 7a5 5 0 1 0 1-3M2 2v3h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
@@ -146,7 +147,7 @@ export default function GalleryDetailPage() {
     fetchData();
   }, [id]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Loading...</div>;
+  if (loading) return <DetailPageSkeleton />;
   if (!item) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Image not found.</div>;
 
   return (
@@ -160,7 +161,7 @@ export default function GalleryDetailPage() {
             className="flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
           >
             <svg width="15" height="15" viewBox="0 0 12 12" fill="none">
-              <path d="M7 1L2 6l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M7 1L2 6l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Gallery
           </button>
@@ -206,9 +207,9 @@ export default function GalleryDetailPage() {
               {/* Zoom hint */}
               <p className="text-[11px] text-[var(--text-muted)] flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.1"/>
-                  <path d="M8 8l2.5 2.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/>
-                  <path d="M3.5 5h3M5 3.5v3" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                  <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.1" />
+                  <path d="M8 8l2.5 2.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+                  <path d="M3.5 5h3M5 3.5v3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                 </svg>
                 Scroll or use controls to zoom · drag to pan
               </p>

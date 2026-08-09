@@ -1,4 +1,5 @@
 ﻿'use client';
+import { DetailPageSkeleton } from '@/components/ui/Skeleton';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import {
@@ -155,7 +156,7 @@ export default function PublicationDetailPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Loading...</div>;
+  if (loading) return <DetailPageSkeleton />;
   if (!item) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Publication not found.</div>;
 
   return (

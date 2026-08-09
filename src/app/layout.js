@@ -6,18 +6,36 @@ import CommandMenu from '@/components/ui/CommandMenu';
 import { AdminProvider } from '@/context/AdminContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { SiteConfigProvider } from '@/context/SiteConfigContext';
-import { ThemeProvider } from '@/context/ThemeContext'; // Import the new provider
+import { ThemeProvider } from '@/context/ThemeContext';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
-export const metadata = { 
-  title: "Abdullah's Portfolio",
-  description: 'Full Stack Developer & Designer Portfolio',
-  icons: {
-    icon: '/favicon.ico', 
+
+// ── Improved SEO metadata with Open Graph and Twitter Card support ──
+export const metadata = {
+  title: {
+    default: "Abdullah Al Mazid | Researcher, Learner, and Engineer",
+    template: "%s | Abdullah Al Mazid",
   },
-  verification: {
-    google: 'zi-0FPJGSsw4APGb0K87hzl00viBROQ991xPs35heIU', // Added your verification code here
+  description: 'Portfolio of Abdullah Al Mazid — Researcher, Learner, and Engineer specializing in modern web applications, machine learning, and academic publications.',
+  keywords: ['Full Stack Developer', 'Next.js', 'React', 'Firebase', 'Portfolio', 'Research', 'Bangladesh'],
+  authors: [{ name: 'Abdullah Al Mazid' }],
+  creator: 'Abdullah Al Mazid',
+  icons: {
+    icon: '/favicon.ico',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Abdullah Al Mazid Portfolio',
+    title: 'Abdullah Al Mazid | Full Stack Developer & Researcher',
+    description: 'Full Stack Developer & Researcher — building modern web applications with passion and precision.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Abdullah Al Mazid | Full Stack Developer & Researcher',
+    description: 'Full Stack Developer & Researcher — building modern web applications with passion and precision.',
+
   },
 };
 
@@ -25,15 +43,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script src="https://upload-widget.cloudinary.com/global/all.js" async />
+
+        {/*
+          Cloudinary widget is loaded lazily only when admin mode is active.
+          Moved from a global script tag to avoid loading ~200KB for every visitor.
+          The AdminToolbar component handles dynamic loading when needed.
+        */}
+
       </head>
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
           <AdminProvider>
             <SiteConfigProvider>
-              <ThemeProvider> {/* Add ThemeProvider here */}
+              <ThemeProvider>
                 <Navbar />
-                <main className="flex-1">{children}</main>
+                <main id="main" className="flex-1">{children}</main>
                 <Footer />
                 <AdminToolbar />
                 <CommandMenu />

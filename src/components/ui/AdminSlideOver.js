@@ -1,4 +1,5 @@
 'use client';
+import ImageField from '@/components/ui/ImageField';
 import { useAdmin } from '@/context/AdminContext';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { db } from '@/lib/firebase';
@@ -235,33 +236,11 @@ export default function AdminSlideOver() {
 
                           {/* 3. IMAGE UPLOAD */}
                           {field.type === 'image' && (
-                            <div className="flex flex-col gap-2">
-                              <div className="flex gap-2">
-                                <input
-                                  id={`edit-${field.key}`}
-                                  type="text"
-                                  defaultValue={data?.[field.key] || ''}
-                                  className="flex-1 p-2 border rounded-lg text-sm"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => cloudinaryConfig.openWidget((url) => {
-                                    const el = document.getElementById(`edit-${field.key}`);
-                                    if (el) el.value = url;
-                                  })}
-                                  className="p-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
-                                >
-                                  <Camera size={20} />
-                                </button>
-                              </div>
-                              {data?.[field.key] && (
-                                <img
-                                  src={data[field.key]}
-                                  alt="Preview"
-                                  className="w-full h-32 object-cover rounded"
-                                />
-                              )}
-                            </div>
+                            <ImageField
+                              id={`edit-${field.key}`}
+                              defaultValue={data?.[field.key] || ''}
+                              label={(field.label || 'image').toLowerCase()}
+                            />
                           )}
 
                           {/* 4. COURSE LIST — new */}

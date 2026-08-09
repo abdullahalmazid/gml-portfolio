@@ -43,7 +43,15 @@ export default function EditableImage({
   };
 
   const openWidget = () => {
-    cloudinaryConfig.openWidget(handleUpload);
+    // Lazy-load Cloudinary script only when admin actually clicks to upload
+    if (typeof window !== 'undefined' && !window.cloudinary) {
+      const script = document.createElement('script');
+      script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+      script.onload = () => cloudinaryConfig.openWidget(handleUpload);
+      document.head.appendChild(script);
+    } else {
+      cloudinaryConfig.openWidget(handleUpload);
+    }
   };
 
   // --- VIEW MODE ---

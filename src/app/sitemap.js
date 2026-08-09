@@ -1,3 +1,4 @@
+
 export default async function sitemap() {
   return [
     {
@@ -14,4 +15,5 @@ export default async function sitemap() {
     //   priority: 0.8,
     // },
   ];
+
 }

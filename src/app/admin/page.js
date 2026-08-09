@@ -1,4 +1,7 @@
 'use client';
+import MessagesPanel from '@/components/admin/MessagesPanel';
+import PaletteStudio from '@/components/admin/PaletteStudio';
+import VisibilityManager from '@/components/admin/VisibilityManager';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { useAdmin } from '@/context/AdminContext';
 import { useAuth } from '@/context/AuthContext';
@@ -10,12 +13,15 @@ import { COLOR_KEYS, parseCommaSeparatedColors, PRESET_THEMES } from '@/lib/them
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+
 // FIX: Changed to lucide-react icons
 import {
   Briefcase, Code,
-  Eye,
+  Eye, EyeOff,
   FileText,
   Image,
+  Inbox,
+  LayoutDashboard,
   Layers, Palette,
   Pencil,
   Settings
@@ -83,9 +89,8 @@ function ThemePanel({ themeId, customColors, setTheme, setCustomColors }) {
         <div className="grid grid-cols-2 gap-2">
           {PRESET_THEMES.map(t => (
             <button key={t.id} onClick={() => handlePresetClick(t)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium border transition-all ${
-                themeId === t.id ? 'border-[var(--accent)] bg-[var(--accent-light)]' : 'border-[var(--border)] hover:border-[var(--accent)]'
-              }`}>
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium border transition-all ${themeId === t.id ? 'border-[var(--accent)] bg-[var(--accent-light)]' : 'border-[var(--border)] hover:border-[var(--accent)]'
+                }`}>
               <div className="flex gap-0.5 shrink-0">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: t.colors['--bg-primary'], border: '1px solid #888' }} />
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: t.colors['--accent'] }} />
@@ -102,6 +107,9 @@ function ThemePanel({ themeId, customColors, setTheme, setCustomColors }) {
         <h3 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-wider mb-4 flex items-center gap-2">
           <Palette className="text-[var(--accent)]" size={16} /> Custom Colors
         </h3>
+        <p className="text-xs text-[var(--text-muted)] mb-3">
+          Manual override. These are not contrast-checked — use Palette Studio above unless you need one specific token changed.
+        </p>
 
         <div className="grid grid-cols-4 gap-2 mb-4">
           {COLOR_KEYS.map(key => (
@@ -118,14 +126,14 @@ function ThemePanel({ themeId, customColors, setTheme, setCustomColors }) {
           <div className="mb-4 p-3 bg-[var(--bg-secondary)] rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-[var(--text-secondary)] font-mono">{editingKey}</p>
-              <input type="text" value={localColors[editingKey] || ''} onChange={e => setLocalColors({...localColors, [editingKey]: e.target.value})}
+              <input type="text" value={localColors[editingKey] || ''} onChange={e => setLocalColors({ ...localColors, [editingKey]: e.target.value })}
                 className="w-24 px-2 py-1 bg-[var(--bg-primary)] border border-[var(--border)] rounded text-xs font-mono text-[var(--text-primary)] outline-none" />
             </div>
-            <HexColorPicker color={localColors[editingKey]} onChange={c => setLocalColors({...localColors, [editingKey]: c})} />
+            <HexColorPicker color={localColors[editingKey]} onChange={c => setLocalColors({ ...localColors, [editingKey]: c })} />
           </div>
         )}
 
-        <button onClick={handleApplyCustom} className="w-full py-2 bg-[var(--accent)] text-white rounded-lg text-sm font-medium hover:bg-[var(--accent-hover)]">Apply Custom Theme</button>
+        <button onClick={handleApplyCustom} className="w-full py-2 bg-[var(--accent)] text-[var(--accent-contrast)] rounded-lg text-sm font-medium hover:bg-[var(--accent-hover)]">Apply Custom Theme</button>
       </div>
 
       {/* Bulk hex input */}
@@ -144,7 +152,7 @@ function ThemePanel({ themeId, customColors, setTheme, setCustomColors }) {
 function SocialLinksEditor() {
   const { data } = useSettings('footer');
   const [socials, setSocials] = useState({});
-  
+
   useEffect(() => {
     if (data?.socials) setSocials(data.socials);
   }, [data]);
@@ -167,12 +175,12 @@ function SocialLinksEditor() {
         {fields.map(f => (
           <div key={f}>
             <label className="block text-xs text-[var(--text-muted)] mb-1 capitalize">{f}</label>
-            <input type="text" value={socials[f] || ''} onChange={e => setSocials({...socials, [f]: e.target.value})}
+            <input type="text" value={socials[f] || ''} onChange={e => setSocials({ ...socials, [f]: e.target.value })}
               className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-sm outline-none focus:border-[var(--accent)]" />
           </div>
         ))}
       </div>
-      <button onClick={handleSave} className="mt-4 w-full py-2 bg-[var(--accent)] text-white rounded-lg text-sm">Save Links</button>
+      <button onClick={handleSave} className="mt-4 w-full py-2 bg-[var(--accent)] text-[var(--accent-contrast)] rounded-lg text-sm">Save Links</button>
     </div>
   );
 }
@@ -182,7 +190,8 @@ export default function AdminDashboard() {
   const { user, loading: al } = useAuth();
   const { editMode, setEditMode, showFieldPaths, setShowFieldPaths } = useAdmin();
   const { themeId, customColors, setTheme, setCustomColors } = useTheme();
-  
+  const [tab, setTab] = useState('overview');
+
   // Stats
   const { items: exp } = useCollection('experience');
   const { items: proj } = useCollection('projects');
@@ -190,7 +199,7 @@ export default function AdminDashboard() {
   const { items: gal } = useCollection('gallery');
   const { items: msg } = useCollection('messages');
   const { items: sec } = useCollection('sections');
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -199,75 +208,104 @@ export default function AdminDashboard() {
 
   if (al || !user) return null;
 
+  const unread = msg.filter(m => !m.read).length;
+
+  const TABS = [
+    { key: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { key: 'messages', label: 'Messages', icon: Inbox, badge: unread },
+    { key: 'appearance', label: 'Appearance', icon: Palette },
+    { key: 'visibility', label: 'Visibility', icon: EyeOff },
+    { key: 'settings', label: 'Settings', icon: Settings },
+  ];
+
   return (
     <section className="container mx-auto px-6 py-12">
       <MotionDiv>
-        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Admin Dashboard</h1>
-        <p className="text-[var(--text-secondary)] mb-8">Manage content, themes, and settings.</p>
-      </MotionDiv>
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-1">Admin Dashboard</h1>
+            <p className="text-[var(--text-secondary)]">Manage content, appearance and settings.</p>
+          </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
-        <StatCard icon={Briefcase} label="Experience" count={exp.length} />
-        <StatCard icon={Code} label="Projects" count={proj.length} />
-        <StatCard icon={FileText} label="Publications" count={pub.length} />
-        <StatCard icon={Image} label="Gallery" count={gal.length} />
-        <StatCard icon={Layers} label="Sections" count={sec.length} />
-        <StatCard icon={FileText} label="Messages" count={msg.length} />
-      </div>
-
-      {/* Controls */}
-      <MotionDiv delay={0.1} className="mb-10">
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-6">
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Edit Controls</h3>
-          <div className="flex flex-wrap gap-3">
-            <button onClick={() => setEditMode(!editMode)} 
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium ${editMode ? 'bg-amber-500 text-black' : 'bg-[var(--bg-secondary)]'}`}>
+          {/* Edit mode is the control used most often, so it lives in the header
+              rather than inside a tab. */}
+          <div className="flex flex-wrap gap-2">
+            <button onClick={() => setEditMode(!editMode)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${editMode ? 'bg-amber-500 text-black' : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]'}`}>
               {editMode ? <><Pencil size={16} /> Edit Mode ON</> : <><Eye size={16} /> View Mode</>}
             </button>
-            <button onClick={() => setShowFieldPaths(!showFieldPaths)} 
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium ${showFieldPaths ? 'bg-blue-500 text-white' : 'bg-[var(--bg-secondary)]'}`}>
+            <button onClick={() => setShowFieldPaths(!showFieldPaths)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${showFieldPaths ? 'bg-blue-500 text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]'}`}>
               <Code size={16} /> {showFieldPaths ? 'Paths ON' : 'Show Paths'}
             </button>
           </div>
-          <p className="text-xs text-[var(--text-muted)] mt-3">
-            Edit Mode: click any text/image on any page to edit inline. Paths: see Firestore field paths.
-          </p>
         </div>
       </MotionDiv>
 
-      {/* Theme + Social */}
-      <div className="grid md:grid-cols-2 gap-8 mb-10">
-        <MotionDiv delay={0.2}>
-          <ThemePanel themeId={themeId} customColors={customColors} setTheme={setTheme} setCustomColors={setCustomColors} />
-        </MotionDiv>
-        <MotionDiv delay={0.3}>
-          <SocialLinksEditor />
-        </MotionDiv>
+      {/* TABS */}
+      <div className="flex gap-1 overflow-x-auto border-b border-[var(--border)] mb-8 -mx-6 px-6">
+        {TABS.map(({ key, label, icon: Icon, badge }) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 -mb-px transition-colors ${tab === key
+                ? 'border-[var(--accent)] text-[var(--accent)]'
+                : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+          >
+            <Icon size={16} /> {label}
+            {badge > 0 && (
+              <span className="px-1.5 py-0.5 rounded-full bg-[var(--accent)] text-[var(--accent-contrast)] text-[10px] font-bold">
+                {badge}
+              </span>
+            )}
+          </button>
+        ))}
       </div>
 
-      {/* Messages */}
-      <MotionDiv delay={0.4}>
-        <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-6">
-          <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Recent Messages</h3>
-          {msg.length === 0 ? (
-            <p className="text-sm text-[var(--text-muted)]">No messages yet.</p>
-          ) : (
-            <div className="space-y-3 max-h-64 overflow-y-auto">
-              {msg.slice(0, 10).map(m => (
-                <div key={m.id} className="p-3 bg-[var(--bg-secondary)] rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium">{m.name}</span>
-                    <span className="text-xs text-[var(--text-muted)]">{m.email}</span>
-                  </div>
-                  {m.subject && <p className="text-xs text-[var(--accent)] mb-1">{m.subject}</p>}
-                  <p className="text-xs text-[var(--text-secondary)] line-clamp-2">{m.message}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </MotionDiv>
+      {tab === 'overview' && (
+        <MotionDiv>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <StatCard icon={Briefcase} label="Experience" count={exp.length} />
+            <StatCard icon={Code} label="Projects" count={proj.length} />
+            <StatCard icon={FileText} label="Publications" count={pub.length} />
+            <StatCard icon={Image} label="Gallery" count={gal.length} />
+            <StatCard icon={Layers} label="Sections" count={sec.length} />
+            <StatCard icon={Inbox} label="Messages" count={msg.length} />
+          </div>
+
+          <div className="bg-[var(--card-bg)] border border-[var(--border)] rounded-xl p-6">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] mb-2">
+              Editing your pages
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+              Turn on Edit Mode, then visit any page. Hover a section for its toolbar
+              — settings, hide, duplicate, reorder, delete — or use the insert lines
+              between sections to add a new one. Click any text or image to edit it
+              in place.
+            </p>
+          </div>
+        </MotionDiv>
+      )}
+
+      {tab === 'messages' && (
+        <MotionDiv><MessagesPanel /></MotionDiv>
+      )}
+
+      {tab === 'appearance' && (
+        <MotionDiv className="space-y-6">
+          <PaletteStudio />
+          <ThemePanel themeId={themeId} customColors={customColors} setTheme={setTheme} setCustomColors={setCustomColors} />
+        </MotionDiv>
+      )}
+
+      {tab === 'visibility' && (
+        <MotionDiv><VisibilityManager /></MotionDiv>
+      )}
+
+      {tab === 'settings' && (
+        <MotionDiv className="max-w-lg"><SocialLinksEditor /></MotionDiv>
+      )}
     </section>
   );
 }

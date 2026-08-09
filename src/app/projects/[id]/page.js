@@ -1,4 +1,5 @@
 ﻿'use client';
+import { DetailPageSkeleton } from '@/components/ui/Skeleton';
 import MotionDiv from '@/components/ui/MotionDiv';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
@@ -233,7 +234,7 @@ export default function ProjectDetailPage() {
           const rq = query(collection(db, 'projects'), where('type', '==', data.type || ''), limit(4));
           const rel = await getDocs(rq);
           setRelatedProjects(rel.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.id !== id).slice(0, 3));
-        } catch (_) {}
+        } catch (_) { }
       }
       setLoading(false);
     };
@@ -246,7 +247,7 @@ export default function ProjectDetailPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Loading...</div>;
+  if (loading) return <DetailPageSkeleton />;
   if (!project) return <div className="min-h-screen flex items-center justify-center text-[var(--text-secondary)]">Project not found.</div>;
 
   const coverImage = images[0];
@@ -302,7 +303,7 @@ export default function ProjectDetailPage() {
           {/* Title in hero */}
           <div className="absolute bottom-0 left-0 right-0 p-8 max-w-3xl pointer-events-none">
             {project.type && (
-              <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--accent)] text-white mb-3">
+              <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--accent)] text-[var(--accent-contrast)] mb-3">
                 {project.type}
               </span>
             )}
